@@ -11,29 +11,129 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages). 
 -->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+Library that offers resources to control via Firebase Remote Config elements according to their build type.
+
+This library is private and not available on pub.dev
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+* Controls the display of widgets and can even replace them.
+* Protect routes from unauthorized access from [Flutter Modular](https://pub.dev/packages/flutter_modular).
+* Use [Groveman](https://pub.dev/packages/groveman) to logs.
+* Use [Firebase Remote Config](https://firebase.flutter.dev/docs/remote-config/overview) to get parameters.
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+This package depends on the Firebase Remote Config service. [See implementation details.](https://firebase.flutter.dev/docs/remote-config/overview)
+
+This library uses parameters from Firebase Remote Config. `If the parameter is false only debug mode can access, otherwise it is available in release mode`.
+
+Add to pubspec
+
+```yaml
+    groveman: any
+    firebase_remote_config: any
+    modular_release_guard:
+        git:
+            url: git://github.com/Zambiee/modular_release_guard.git 
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+### First step 
+
+Includes initialize all library dependencies(Groveman and RemoteConfig).
 
 ```dart
-const like = 'sample';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Groveman.plantTree(DebugTree(showColor: true));
+  await Firebase.initializeApp();
+
+  RemoteConfig remoteConfig = RemoteConfig.instance;
+
+  await remoteConfig.setConfigSettings(RemoteConfigSettings(
+    fetchTimeout: Duration(seconds: 10),
+    minimumFetchInterval: Duration(hours: 1),
+  ));
+
+  // true para prod, false para apenas dev
+  remoteConfig.setDefaults(<String, dynamic>{
+    'clinics': false,
+  });
+
+  await remoteConfig.fetchAndActivate();
 ```
+
+### Second
+
+The following methods will be made available.
+
+#### Widgets
+
+Widget control can happen using the following methods:
+
+```dart
+
+    ...
+    IconButton(
+        onPressed: () {
+                Modular.to.pushNamed('/clinics');
+                    },
+                icon: Icon(Icons.help))
+              .withReleaseControl('clinics'),
+        ],
+      ),
+
+```
+
+The original widget can be replaced with another one.
+
+```dart
+    ...
+    IconButton(
+        onPressed: () {
+                Modular.to.pushNamed('/clinics');
+                    },
+                icon: Icon(Icons.help))
+              .withReleaseControl('clinics', replacement: Text('See later')),
+        ],
+      ),
+
+```
+
+#### Flutter Modular - Modules and Routes
+
+Extensions are available to control modules and routes
+
+```dart
+ ModuleRoute(
+          '/clinics',
+          module: LocalClinicsModule(),
+        ).withReleaseControl(),
+```
+
+Without any parameter the default parameter in Remote Config is initial route.
+
+
+```dart
+ ModuleRoute(
+          '/clinics',
+          module: LocalClinicsModule(),
+        ).withReleaseControl('clinics_provided'),
+```
+
+Release control with parameter `clinics_provided` from Remote Config.
+
+```dart
+ ModuleRoute(
+          '/clinics',
+          module: LocalClinicsModule(),
+        ).withReleaseControl('clinics_provided', redirectTo: '/comingsoon'),
+```
+
+Provides an alternative route.
 
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+Designed by [Kauê Martins](https://github.com/kmartins) and developed by [Lucas Náiade](https://github.com/lucasnsa), both from [Zambiee](https://www.zambiee.com.br).

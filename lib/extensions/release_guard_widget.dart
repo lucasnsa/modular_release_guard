@@ -26,7 +26,7 @@ extension ReleaseWidget on Widget {
     maintainSemantics = false,
     maintainInteractivity = false,
   }) {
-    final remoteConfig = Modular.get<RemoteConfig>();
+    final remoteConfig = RemoteConfig.instance;
     final isVisible = kReleaseMode ? remoteConfig.getBool(route) : true;
     return Visibility(
       child: this,
