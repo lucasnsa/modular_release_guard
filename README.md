@@ -13,8 +13,6 @@ and the Flutter guide for
 
 Library that offers resources to control via Firebase Remote Config elements according to their build type.
 
-This library is private and not available on pub.dev
-
 ## Features
 
 * Controls the display of widgets and can even replace them.
