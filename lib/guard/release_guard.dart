@@ -7,7 +7,7 @@ import 'package:groveman/groveman.dart';
 
 class ReleaseGuard extends RouteGuard {
   final isDev = foundation.kDebugMode;
-  final remoteConfig = RemoteConfig.instance;
+  final remoteConfig = FirebaseRemoteConfig.instance;
   final String? releaseGuardedRoute;
 
   ReleaseGuard(this.releaseGuardedRoute, {redirectTo})
