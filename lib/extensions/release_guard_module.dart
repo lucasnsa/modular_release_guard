@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:modular_release_guard/guard/release_guard.dart';
 
@@ -8,7 +9,7 @@ extension ModuleRouteReleaseControl on ModuleRoute {
   ModularRoute withReleaseControl({String? guardedRoute, String? redirectTo}) {
     final _guardedRoute = guardedRoute ?? Modular.to.path;
     final _guards = List<RouteGuard>.from(middlewares);
-    if (true) {
+    if (kReleaseMode) {
       _guards.add(ReleaseGuard(_guardedRoute, redirectTo: redirectTo));
     }
     return copyWith(middlewares: _guards);
@@ -22,7 +23,7 @@ extension ChildRouteReleaseControl on ChildRoute {
   ModularRoute withReleaseControl({String? guardedRoute, String? redirectTo}) {
     final _guardedRoute = guardedRoute ?? Modular.to.path;
     final _guards = List<RouteGuard>.from(middlewares);
-    if (true) {
+    if (kReleaseMode) {
       _guards.add(ReleaseGuard(_guardedRoute, redirectTo: redirectTo));
     }
     return copyWith(middlewares: _guards);

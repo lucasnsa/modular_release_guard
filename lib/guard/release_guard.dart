@@ -15,7 +15,7 @@ class ReleaseGuard extends RouteGuard {
 
   @override
   Future<bool> canActivate(String path, ModularRoute route) {
-    final modulePath = path.replaceAll('/', '');
+    final modulePath = releaseGuardedRoute ?? path.replaceAll('/', '');
     final isGrant = remoteConfig.getBool(modulePath);
     if (isGrant) {
       Groveman.debug('ReleaseGuard grant acess;');

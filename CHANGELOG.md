@@ -1,3 +1,6 @@
-## 0.0.1
+## 0.8.1
 
-* TODO: Describe initial release.
+* Fix doc
+## 0.8.0
+
+* Initial publish

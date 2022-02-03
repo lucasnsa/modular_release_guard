@@ -31,9 +31,7 @@ Add to pubspec
 ```yaml
     groveman: any
     firebase_remote_config: any
-    modular_release_guard:
-        git:
-            url: git://github.com/Zambiee/modular_release_guard.git 
+    modular_release_guard: any
 ```
 
 ## Usage
