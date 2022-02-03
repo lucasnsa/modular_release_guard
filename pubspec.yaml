@@ -1,5 +1,5 @@
 name: modular_release_guard
-description: A new Flutter package project.
+description: Control resources via Firebase Remote Config.
 version: 0.0.1
 homepage: www.zambiee.com.br
 
