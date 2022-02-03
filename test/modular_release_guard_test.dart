@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:firebase_remote_config_platform_interface/firebase_remote_config_platform_interface.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -17,20 +16,21 @@ MockFirebaseRemoteConfig mockRemoteConfigPlatform = MockFirebaseRemoteConfig();
 void main() {
   setupFirebaseRemoteConfigMocks();
 
-  late RemoteConfig remoteConfig;
+  late FirebaseRemoteConfig remoteConfig;
   late DateTime mockLastFetchTime;
   late RemoteConfigFetchStatus mockLastFetchStatus;
   late RemoteConfigSettings mockRemoteConfigSettings;
   late Map<String, RemoteConfigValue> mockParameters;
+  // ignore: unused_local_variable
   late Map<String, dynamic> mockDefaultParameters;
   late RemoteConfigValue mockRemoteConfigValue;
 
-  group('$RemoteConfig', () {
+  group('$FirebaseRemoteConfig', () {
     FirebaseRemoteConfigPlatform.instance = mockRemoteConfigPlatform;
 
     setUpAll(() async {
       await Firebase.initializeApp();
-      remoteConfig = RemoteConfig.instance;
+      remoteConfig = FirebaseRemoteConfig.instance;
 
       mockLastFetchTime = DateTime(2020);
       mockLastFetchStatus = RemoteConfigFetchStatus.noFetchYet;
